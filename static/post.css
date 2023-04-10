@@ -1,0 +1,44 @@
+body {
+    font-family: Fira Code, Inconsolata, Hack, Anonymous Pro, monospace;
+}
+
+textarea#tArea {
+    width: calc(10pt + 85vw);
+    height: calc(10pt + 55vh);
+    font-family: Hack, Anonymous Pro, monospace;
+    font-size: 2.15rem;
+}
+
+input#input {
+    width: calc(15vw + 5pt);
+    height: calc(5vw + 1vh);
+}
+
+#container {
+    padding-left: calc(2pt + 2vw);
+    padding-top: calc(2pt + 2vw);
+}
+
+span.postInfo,
+span.commentInfo {
+    color: gray;
+    font-size: calc(0.7rem);
+}
+
+hr.commentSpacer {
+    width: 50%;
+    text-align: left;
+    margin-left: 0
+}
+
+main.post {
+    font-size: calc(1.3rem);
+    padding-block-start: calc(1.5vh + 5pt);
+    padding-block-end: 4pt;
+}
+
+main.comment {
+    font-size: calc(1.24rem);
+    padding-block-start: calc(1.2vh + 5pt);
+    padding-block-end: 3.5pt;
+}

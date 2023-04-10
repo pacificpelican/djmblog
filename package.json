@@ -1,0 +1,19 @@
+{
+    "name": "djmblog3",
+    "version": "0.0.1",
+    "description": "PHP blog tool extracted from danmckeown.info site for 2022",
+    "main": "index.html",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "npx snowpack@1.7.1",
+        "dev": "npx snowpack@1.7.1 dev && npx serve .",
+        "start": "npx serve ."
+    },
+    "author": "Dan McKeown <d@danmckeown.info>",
+    "license": "ISC",
+    "dependencies": {
+        "frappe-gantt": "^0.5.0",
+        "htm": "~2.2.1",
+        "preact": "~10.2.1"
+    }
+}

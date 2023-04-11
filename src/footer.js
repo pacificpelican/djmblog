@@ -12,10 +12,10 @@ class App extends Component {
           <footer id="info">
             <aside id="copyright">
               <section id="dm">
-                <a href="https://danmckeown.info">Dan McKeown . info</a>
+                <a href="https://djmblog.com">DJM blog . com</a>
               </section>
               <span id="designed"
-                >(c) 2022 Created by <a href="https://altaredwood.work">Alta Redwood</a> in Washington state</span>
+                >(c) 2022-2023 Created by <a href="https://altaredwood.work">Alta Redwood</a> in Washington state</span>
             </aside>
           </footer>
 

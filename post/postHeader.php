@@ -1,5 +1,5 @@
 <header id="postHeader">
-  <h1><a href="https://danmckeown.info">DanMcKeown.info</a> posts</h1>
+  <h1><a href="https://djmblog.com">djmblog</a> posts</h1>
 <ul>
   <li><a href="../../posts">Posts</a></li>
   <li><a href="../../post">Post</a></li>

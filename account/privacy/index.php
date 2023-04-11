@@ -3,7 +3,7 @@ require '../../post/connect.php';
 include '../../post/postHeader.php';
 
 $OWNER_NAME = "Daniel McKeown";
-$SITE_NAME = "DanMcKeown.info";
+$SITE_NAME = "djmblog.com";
 ?>
 
 <div id="privacy">

@@ -1,6 +1,6 @@
 {
     "name": "djmblog3",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "PHP blog tool extracted from danmckeown.info site for 2022",
     "main": "index.html",
     "scripts": {

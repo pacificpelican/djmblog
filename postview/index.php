@@ -7,7 +7,7 @@ include '../post/postHeader.php';
 <html lang="en">
 
 <head>
-  <title>Dan McKeown . info / post id <?php echo $_GET["id"]; ?></title>
+  <title>djmblog / post id <?php echo $_GET["id"]; ?></title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../static/post.css" />

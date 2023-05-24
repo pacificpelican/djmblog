@@ -1,9 +1,9 @@
 <?php
-include 'connect.php';
-include 'postHeader.php';
+include './post/connect.php';
+include './post/postHeader.php';
 
-$username = $_SESSION["poster"];
-$uu_id = $_SESSION["uu_id"];
+$username = $_SESSION["poster"] ?? null;
+$uu_id = $_SESSION["uu_id"] ?? null;
 ?> 
 
 <!DOCTYPE html>

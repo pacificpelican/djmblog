@@ -3,9 +3,9 @@
 session_start();
 
 $servername = "localhost";
-$username = "djmbloguser";
-$password = "80762784589447";
-$dbname = "djmbloguser";
+$username = "djmblog";
+$password = "1111111";
+$dbname = "djmblog";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);

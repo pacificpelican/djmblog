@@ -28,7 +28,7 @@ require '../post/connect.php';
 <body>
   <div id="container">
     <header id="postHeader">
-      <h1><a href="https://djmblog.com">djmblog</a> posts</h1>
+      <h1><a href="#">djmblog</a> posts</h1>
 
     </header>
 

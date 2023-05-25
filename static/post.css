@@ -42,3 +42,10 @@ main.comment {
     padding-block-start: calc(1.2vh + 5pt);
     padding-block-end: 3.5pt;
 }
+
+img#logo {
+    width: calc(40vw + 10pt);
+    height: auto;
+    border-radius: 2pt;
+    border: 3em solid #fff;
+}

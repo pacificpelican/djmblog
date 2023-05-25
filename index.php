@@ -25,6 +25,10 @@ $uu_id = $_SESSION["uu_id"] ?? null;
   
 
   <h2><a href="./posts">Posts</a></h2>
+
+  <aside id="logo">
+    <a href="https://github.com/pacificpelican/djmblog"><img id="logo" src="./static/img/pacificpelican_DJM_blog_logo_no_text_black_and_white_1aae8f91-7370-4b39-a681-5431d06fdd8c.webp" alt="logo" /></a>
+  </aside>
     
   </div>
 </body>

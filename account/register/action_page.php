@@ -6,7 +6,7 @@ include '../../post/postHeader.php';
 $content = $date_now = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $content = $_POST["content"];
+  //  $content = $_POST["content"];
   //$date_now = $currentDate->format('Y-m-d H:i:s');
 }
 

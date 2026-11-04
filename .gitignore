@@ -1,3 +1,4 @@
 .sessions
+post/db.local.php
 node_modules
 web_modules

@@ -41,6 +41,12 @@ $username = "djmblog";
 $password = "1111111";
 $dbname = "djmblog";
 
+// Optional override so real credentials can stay out of git: create post/db.local.php
+// containing <?php $servername = '...'; $username = '...'; $password = '...'; $dbname = '...';
+if (file_exists(__DIR__ . '/db.local.php')) {
+  include __DIR__ . '/db.local.php';
+}
+
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 

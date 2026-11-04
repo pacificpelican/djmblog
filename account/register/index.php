@@ -21,6 +21,9 @@ include '../../post/postHeader.php';
   <div id="container">
   
   <h1>Register</h1>
+  <?php if (!$open_registration) { ?>
+  <p>Registration is currently closed.</p>
+  <?php } else { ?>
   <form action="./action_page.php" method="post">
   <?php echo csrf_field(); ?>
   <label for="fname">Username:</label>
@@ -31,6 +34,7 @@ include '../../post/postHeader.php';
     <br />
     <input id="input" type="submit" value="Create Account">
   </form>
+  <?php } ?>
     
   </div>
 </body>

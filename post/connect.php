@@ -212,13 +212,18 @@ function login_is_throttled() { return throttle_count('login', LOGIN_WINDOW_SECO
 function login_record_failure() { throttle_hit('login', LOGIN_WINDOW_SECONDS); }
 function register_is_throttled() { return throttle_count('register', REGISTER_WINDOW_SECONDS) >= REGISTER_MAX; }
 function register_record() { throttle_hit('register', REGISTER_WINDOW_SECONDS); }
+
 $servername = "localhost";
 $username = "djmblog";
 $password = "1111111";
 $dbname = "djmblog";
 
-// Optional override so real credentials can stay out of git: create post/db.local.php
+// Set to false to close registration (existing users can still log in)
+$open_registration = true;
+
+// Optional override so real settings can stay out of git: create post/db.local.php
 // containing <?php $servername = '...'; $username = '...'; $password = '...'; $dbname = '...';
+// and optionally $open_registration = false;
 if (file_exists(__DIR__ . '/db.local.php')) {
   include __DIR__ . '/db.local.php';
 }

@@ -26,7 +26,7 @@ $uu_id = $_SESSION["uu_id"] ?? null;
 
 <body>
   <header>
-    <a href='./register'>register</a>
+    <?php if ($open_registration) { echo "<a href='./register'>register</a>"; } ?>
 </header>
   <div id="container">
     <h1> Account Page </h1>

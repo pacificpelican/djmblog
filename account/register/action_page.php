@@ -1,6 +1,12 @@
 <?php
 require '../../post/connect.php';
 include '../../post/postHeader.php';
+
+if (!$open_registration) {
+  http_response_code(403);
+  echo "<div id='postPost'><b>Registration is currently closed.</b><br /><a href='../'>back to account page</a></div>";
+  exit;
+}
 csrf_check();
 
 //$currentDate = new date();

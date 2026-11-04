@@ -1,13 +1,14 @@
 <?php
 require '../../post/connect.php';
 include '../../post/postHeader.php';
+csrf_check();
 
 //$currentDate = new date();
 $content = $date_now = "";
 
 if (isset($_SESSION["uu_id"])) 
 {  
-  $theUUID = $_GET["id"];
+  $theUUID = isset($_POST["id"]) ? $_POST["id"] : "";
       $stmt = $conn->prepare("DELETE FROM Comments WHERE userID = ? AND uu_id = ?");
       $stmt->bind_param("ss", $_SESSION["uu_id"], $theUUID);
       $stmt->execute();

@@ -1,20 +1,21 @@
 <?php
 require '../../post/connect.php';
 include '../../post/postHeader.php';
+csrf_check();
 
 //$currentDate = new date();
 $content = $date_now = "";
 
 if (isset($_SESSION["uu_id"])) 
 {  
-  $theUUID = $_GET["id"];
+  $theUUID = isset($_POST["id"]) ? $_POST["id"] : "";
       $stmt = $conn->prepare("DELETE FROM Posts WHERE userID = ? AND uu_id = ?");
       $stmt->bind_param("ss", $_SESSION["uu_id"], $theUUID);
       $stmt->execute();
   
 
   echo "<div id='postPost'><b>Post was deleted</b>" . "<br />";
-  echo "<i><a href='../../postview/?id=" . $_GET["id"] . "'>Back to post</a></i>" . "<br />";
+  echo "<i><a href='../../postview/?id=" . urlencode($theUUID) . "'>Back to post</a></i>" . "<br />";
   // echo $_POST["fname"] . "<br />";
   // //echo $_POST["pwd"] . "<br />";
   echo $content . "</div>";

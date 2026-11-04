@@ -1,6 +1,7 @@
 <?php
 require '../post/connect.php';
 include '../post/postHeader.php';
+csrf_check();
 
 //$currentDate = new date();
 $content = $date_now = "";

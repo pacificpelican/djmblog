@@ -1,4 +1,6 @@
 <?php
+// Buffer output so headers/status codes can still be set after the DB messages below
+ob_start();
 // Start the session, trying custom writable locations before the host default
 function start_session_with_fallback() {
   if (session_status() === PHP_SESSION_ACTIVE) {
@@ -34,6 +36,32 @@ function start_session_with_fallback() {
 
 if (!start_session_with_fallback()) {
   error_log('djmblog: unable to start a session');
+}
+
+// CSRF protection: one random token per session, embedded in every state-changing form
+function csrf_token() {
+  if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+  }
+  return $_SESSION['csrf_token'];
+}
+
+function csrf_field() {
+  return "<input type='hidden' name='csrf_token' value='" . csrf_token() . "'>";
+}
+
+// Requires a POST with a valid token; otherwise stops with 403/405
+function csrf_check() {
+  if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    header('Allow: POST');
+    exit('Method not allowed');
+  }
+  $sent = isset($_POST['csrf_token']) ? $_POST['csrf_token'] : '';
+  if (empty($_SESSION['csrf_token']) || !is_string($sent) || !hash_equals($_SESSION['csrf_token'], $sent)) {
+    http_response_code(403);
+    exit('Invalid or missing security token. Go back, reload the page and try again.');
+  }
 }
 
 $servername = "localhost";

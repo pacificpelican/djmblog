@@ -22,6 +22,7 @@ include '../../post/postHeader.php';
   
   <h1>Register</h1>
   <form action="./action_page.php" method="post">
+  <?php echo csrf_field(); ?>
   <label for="fname">Username:</label>
   <input type="text" id="fname" name="fname" required><br><br>
   <label for="fname">Password:</label>

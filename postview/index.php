@@ -53,7 +53,7 @@ include '../post/postHeader.php';
 
         }
         if (isset($_SESSION["uu_id"])) {
-          echo "<br /><form action='./action_page.php' method='post'>";
+          echo "<br /><form action='./action_page.php' method='post'>" . csrf_field();
           echo "<textarea id='tArea' name='content' required></textarea><br />";
           echo "<input type='hidden' id='postId' name='postID' value=" . $theUUID . ">";
           echo "<input id='input' type='submit' value='Post' /></form>";

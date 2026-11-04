@@ -152,6 +152,64 @@ function csrf_check() {
   }
 }
 
+// Login throttling: a generous per-IP cap on FAILED logins, only meant to stop bots.
+// Counters live in small files next to the session files, so no DB schema change is needed.
+define('LOGIN_MAX_FAILS', 100);
+define('LOGIN_WINDOW_SECONDS', 900);
+
+function login_throttle_file() {
+  $dir = session_save_path();
+  if ($dir === '' || !is_dir($dir) || !is_writable($dir)) {
+    $dir = sys_get_temp_dir();
+  }
+  $ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'unknown';
+  return rtrim($dir, '/\\') . DIRECTORY_SEPARATOR . 'djmrl_' . hash('sha256', $ip);
+}
+
+function login_fail_count() {
+  $f = login_throttle_file();
+  if (!is_file($f)) {
+    return 0;
+  }
+  $d = json_decode((string)@file_get_contents($f), true);
+  if (!is_array($d) || !isset($d['start'], $d['count']) || time() - $d['start'] > LOGIN_WINDOW_SECONDS) {
+    return 0;
+  }
+  return (int)$d['count'];
+}
+
+function login_is_throttled() {
+  return login_fail_count() >= LOGIN_MAX_FAILS;
+}
+
+function login_record_failure() {
+  $f = login_throttle_file();
+  $h = @fopen($f, 'c+');
+  if (!$h) {
+    return;
+  }
+  flock($h, LOCK_EX);
+  $d = json_decode((string)stream_get_contents($h), true);
+  if (!is_array($d) || !isset($d['start'], $d['count']) || time() - $d['start'] > LOGIN_WINDOW_SECONDS) {
+    $d = array('start' => time(), 'count' => 0);
+  }
+  $d['count']++;
+  ftruncate($h, 0);
+  rewind($h);
+  fwrite($h, json_encode($d));
+  flock($h, LOCK_UN);
+  fclose($h);
+
+  // occasionally prune expired counter files
+  if (mt_rand(1, 50) === 1) {
+    foreach ((array)glob(dirname($f) . DIRECTORY_SEPARATOR . 'djmrl_*') as $old) {
+      if (is_file($old) && time() - filemtime($old) > LOGIN_WINDOW_SECONDS) {
+        @unlink($old);
+      }
+    }
+  }
+}
+
 $servername = "localhost";
 $username = "djmblog";
 $password = "1111111";

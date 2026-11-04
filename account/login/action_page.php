@@ -10,37 +10,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // set parameters and execute
-$poster = $_POST["fname"];
-$raw_pw = $_POST["pwd"];
+$poster = isset($_POST["fname"]) ? (string)$_POST["fname"] : "";
+$raw_pw = isset($_POST["pwd"]) ? (string)$_POST["pwd"] : "";
 
-$password_hash = password_hash($raw_pw, PASSWORD_DEFAULT);
+$login_ok = false;
 
-$stmt = $conn->prepare("SELECT poster, password_hash, uu_id FROM Users WHERE poster = ?");
-$stmt->bind_param("s", $poster);
-$stmt->execute();
-$result = $stmt->get_result();
-
-$login_result = "";
-
-$uu_id_result = '';
-
-if ($result->num_rows > 0) {
-  // output data of each row
-  while($row = $result->fetch_assoc()) {
-    echo "login found <br />";
-    
-    if (password_verify($raw_pw, $row["password_hash"])) {
-      echo "<br /><b>password correct</b>" . "<br /><a href='../../post'>create post</a>";
-
-      $uu_id_result = $row["uu_id"];
-
-      session_regenerate_id(true);
-      $_SESSION["poster"] = $row["poster"];
-      $_SESSION["uu_id"] = $uu_id_result;
-    }
-  }
+if (login_is_throttled()) {
+  http_response_code(429);
+  header('Retry-After: ' . LOGIN_WINDOW_SECONDS);
+  echo "<div id='postPost'><b>Too many failed login attempts.</b><br />Please wait a few minutes and try again.</div>";
 } else {
-  echo "0 results found for that login/password";
+  $stmt = $conn->prepare("SELECT poster, password_hash, uu_id FROM Users WHERE poster = ?");
+  $stmt->bind_param("s", $poster);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  $row = $result->fetch_assoc();
+
+  // Always run one hash verification so unknown users and wrong passwords take similar time
+  $hash = $row ? $row["password_hash"] : '$2y$12$I9sFdvqlmlI0VExEsxjZDORU57Rku.0IHU.sQgdl2m2z7RsvGhjTm';
+
+  if (password_verify($raw_pw, $hash) && $row) {
+    $login_ok = true;
+    session_regenerate_id(true);
+    $_SESSION["poster"] = $row["poster"];
+    $_SESSION["uu_id"] = $row["uu_id"];
+    echo "<div id='postPost'><b>Logged in</b><br /><a href='../../post'>create post</a></div>";
+  } else {
+    login_record_failure();
+    echo "<div id='postPost'><b>Login failed:</b> incorrect username or password.<br /><a href='./'>try again</a></div>";
+  }
 }
 
 ?> 

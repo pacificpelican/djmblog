@@ -16,7 +16,11 @@ $uu_id = $_SESSION["uu_id"] ?? null;
   <link rel="stylesheet" href="../static/post.css">
 
   <style>
-    
+    form.inlineLogout { display: inline; margin: 0; }
+    form.inlineLogout button {
+      background: none; border: 0; padding: 0; margin: 0;
+      font: inherit; color: LinkText; text-decoration: underline; cursor: pointer;
+    }
   </style>
 </head>
 
@@ -30,7 +34,7 @@ $uu_id = $_SESSION["uu_id"] ?? null;
 
   <section id="userInfoName">
   <?php 
-    echo ($username=="") ? "<a href='./login'>login</a>" :   "<span>Username:</span>" . "<span id='uname'>" . h($username) . "<br /><a href='./logout'>log out</a>"; 
+    echo ($username=="") ? "<a href='./login'>login</a>" :   "<span>Username:</span>" . "<span id='uname'>" . h($username) . "<br /><form class='inlineLogout' action='./logout/' method='post'>" . csrf_field() . "<button type='submit'>log out</button></form>"; 
   ?>
   </section>
   <br /><br />

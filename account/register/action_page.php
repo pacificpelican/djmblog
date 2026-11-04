@@ -27,24 +27,38 @@ function guidv4($data = null) {
 }
 
 
-// prepare and bind
-$stmt = $conn->prepare("INSERT INTO Users (poster, password_hash, date_string, uu_id) VALUES (?, ?, ?, ?)");
-$stmt->bind_param("ssss", $poster, $password_hash, $date_string, $uu_id);
-
 // set parameters and execute
-$poster = $_POST["fname"];
-$raw_pw = $_POST["pwd"];
+$poster = isset($_POST["fname"]) ? trim((string)$_POST["fname"]) : "";
+$raw_pw = isset($_POST["pwd"]) ? (string)$_POST["pwd"] : "";
 
-$password_hash = password_hash($raw_pw, PASSWORD_DEFAULT);
+if (register_is_throttled()) {
+  http_response_code(429);
+  header('Retry-After: ' . REGISTER_WINDOW_SECONDS);
+  echo "<div id='postPost'><b>Too many accounts created from your connection.</b><br />Please try again later.</div>";
+} elseif ($poster === "" || $raw_pw === "" || mb_strlen($poster) > 90) {
+  echo "<div id='postPost'><b>Please provide a username (up to 90 characters) and a password.</b><br /><a href='./'>try again</a></div>";
+} else {
+  $check = $conn->prepare("SELECT 1 FROM Users WHERE poster = ?");
+  $check->bind_param("s", $poster);
+  $check->execute();
 
-$date_string = getdate()[0];
-$uu_id = guidv4();
-$stmt->execute();
+  if ($check->get_result()->num_rows > 0) {
+    echo "<div id='postPost'><b>That username is already taken.</b><br /><a href='./'>try again</a></div>";
+  } else {
+    // prepare and bind
+    $stmt = $conn->prepare("INSERT INTO Users (poster, password_hash, date_string, uu_id) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $poster, $password_hash, $date_string, $uu_id);
 
-echo "<div id='postPost'><b>Username/Password saved</b>" . "<br />";
-echo h($_POST["fname"]) . "<br />";
+    $password_hash = password_hash($raw_pw, PASSWORD_DEFAULT);
+    $date_string = getdate()[0];
+    $uu_id = guidv4();
+    $stmt->execute();
+    register_record();
 
-echo clean_html($content) . "</div>";
+    echo "<div id='postPost'><b>Username/Password saved</b>" . "<br />";
+    echo h($poster) . "</div>";
+  }
+}
 ?> 
 
 <style>

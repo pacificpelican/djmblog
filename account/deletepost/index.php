@@ -8,9 +8,9 @@ $content = $date_now = "";
 if (isset($_SESSION["uu_id"])) 
 {  
   $theUUID = $_GET["id"];
-      $sql = "DELETE FROM Posts WHERE userID='" . $_SESSION["uu_id"] . "' AND uu_id='" . "$theUUID" . "'";
-      
-      $result = $conn->query($sql);
+      $stmt = $conn->prepare("DELETE FROM Posts WHERE userID = ? AND uu_id = ?");
+      $stmt->bind_param("ss", $_SESSION["uu_id"], $theUUID);
+      $stmt->execute();
   
 
   echo "<div id='postPost'><b>Post was deleted</b>" . "<br />";

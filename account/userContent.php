@@ -25,9 +25,10 @@
     <?php
     if  (isset($_SESSION["uu_id"])) {
       $theUUID = $_SESSION["uu_id"];
-      $sql = "SELECT post, poster, date_string, uu_id FROM Posts WHERE userID='" . $theUUID . "' ORDER BY date_string DESC";
-      //  var_dump($sql);
-      $result = $conn->query($sql);
+      $stmt = $conn->prepare("SELECT post, poster, date_string, uu_id FROM Posts WHERE userID = ? ORDER BY date_string DESC");
+      $stmt->bind_param("s", $theUUID);
+      $stmt->execute();
+      $result = $stmt->get_result();
 
     //  var_dump($result);
 
@@ -54,9 +55,10 @@
     <?php
     if  (isset($_SESSION["uu_id"])) {
       $theUUID = $_SESSION["uu_id"];
-      $sql = "SELECT postID, post, poster, date_string, uu_id FROM Comments WHERE userID='" . $theUUID . "' ORDER BY date_string DESC";
-      //  var_dump($sql);
-      $result = $conn->query($sql);
+      $stmt = $conn->prepare("SELECT postID, post, poster, date_string, uu_id FROM Comments WHERE userID = ? ORDER BY date_string DESC");
+      $stmt->bind_param("s", $theUUID);
+      $stmt->execute();
+      $result = $stmt->get_result();
 
     //  var_dump($result);
 

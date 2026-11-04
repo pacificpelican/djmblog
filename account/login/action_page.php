@@ -14,9 +14,10 @@ $raw_pw = $_POST["pwd"];
 
 $password_hash = password_hash($raw_pw, PASSWORD_DEFAULT);
 
-$sql = "SELECT poster, password_hash, uu_id FROM Users WHERE poster='" . "$poster" . "'"; 
-
-$result = $conn->query($sql);
+$stmt = $conn->prepare("SELECT poster, password_hash, uu_id FROM Users WHERE poster = ?");
+$stmt->bind_param("s", $poster);
+$stmt->execute();
+$result = $stmt->get_result();
 
 $login_result = "";
 

@@ -37,13 +37,15 @@ require '../post/connect.php';
 
     <?php
       $theUUID = $_GET["id"];
-      $sql = "SELECT post, poster, date_string, uu_id FROM Posts WHERE uu_id='" . "$theUUID" . "'";
-      
-      $sql_comments = "SELECT post, poster, date_string, uu_id FROM Comments WHERE postID='" . "$theUUID" . "' ORDER BY date_string ASC";
+      $stmt = $conn->prepare("SELECT post, poster, date_string, uu_id FROM Posts WHERE uu_id = ?");
+      $stmt->bind_param("s", $theUUID);
+      $stmt->execute();
+      $result = $stmt->get_result();
 
-      $result = $conn->query($sql);
-
-      $result_comments = $conn->query($sql_comments);
+      $stmt_comments = $conn->prepare("SELECT post, poster, date_string, uu_id FROM Comments WHERE postID = ? ORDER BY date_string ASC");
+      $stmt_comments->bind_param("s", $theUUID);
+      $stmt_comments->execute();
+      $result_comments = $stmt_comments->get_result();
 
       if ($result->num_rows > 0) {
         // output data of each row

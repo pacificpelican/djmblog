@@ -31,8 +31,8 @@ include '../post/postHeader.php';
       if ($result->num_rows > 0) {
         // output data of each row
         while($row = $result->fetch_assoc()) {
-          $filteredContent = preg_replace('~<\s*\bscript\b[^>]*>(.*?)<\s*\/\s*script\s*>~is', '', $row["post"]);
-          echo  "poster: " . $row["poster"] . " - post: " . $filteredContent . " | " . date("Y-m-d H:i:s", substr($row["date_string"], 0, 10)) . " | <a href='../postview/?id=" . $row["uu_id"] . "'>" . $row["uu_id"] . "</a>" . "<br>";
+          $filteredContent = clean_html($row["post"]);
+          echo  "poster: " . h($row["poster"]) . " - post: " . $filteredContent . " | " . date("Y-m-d H:i:s", substr($row["date_string"], 0, 10)) . " | <a href='../postview/?id=" . urlencode($row["uu_id"]) . "'>" . h($row["uu_id"]) . "</a>" . "<br>";
         }
       } 
       else {

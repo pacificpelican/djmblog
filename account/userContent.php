@@ -39,7 +39,7 @@
       if ($result->num_rows > 0) {
         // output data of each row
         while($row = $result->fetch_assoc()) {
-          echo  "poster: " . $row["poster"] . " - post: " . $row["post"]. " | " . date("Y-m-d H:i:s", substr($row["date_string"], 0, 10)) . " | <a href='../postview/?id=" . $row["uu_id"] . "'>" . $row["uu_id"] . "</a>" . " <a href='../permalink/?id=" . $row["uu_id"] . "'>" . "📌" . "</a>" . " | <form class='inlineDelete' action='../account/deletepost/' method='post'>" . csrf_field() . "<input type='hidden' name='id' value='" . htmlspecialchars($row["uu_id"], ENT_QUOTES) . "'><button type='submit'>delete</button></form><br>";
+          echo  "poster: " . h($row["poster"]) . " - post: " . clean_html($row["post"]) . " | " . date("Y-m-d H:i:s", substr($row["date_string"], 0, 10)) . " | <a href='../postview/?id=" . urlencode($row["uu_id"]) . "'>" . h($row["uu_id"]) . "</a>" . " <a href='../permalink/?id=" . urlencode($row["uu_id"]) . "'>" . "📌" . "</a>" . " | <form class='inlineDelete' action='../account/deletepost/' method='post'>" . csrf_field() . "<input type='hidden' name='id' value='" . htmlspecialchars($row["uu_id"], ENT_QUOTES) . "'><button type='submit'>delete</button></form><br>";
         }
       } 
       else {
@@ -69,7 +69,7 @@
       if ($result->num_rows > 0) {
         // output data of each row
         while($row = $result->fetch_assoc()) {
-          echo  "commenter: " . $row["poster"] . " - post: " . $row["post"]. " | " . date("Y-m-d H:i:s", substr($row["date_string"], 0, 10)) . " | <a href='../postview/?id=" . $row["postID"] . "'>" . " <a href='../postview/?id=" . $row["postID"] . "'>" . $row["postID"] . "</a>" . " <a href='../permalink/?id=" . $row["postID"] . "'>" .  "📌" . "</a>" . " | <form class='inlineDelete' action='../account/deletecomment/' method='post'>" . csrf_field() . "<input type='hidden' name='id' value='" . htmlspecialchars($row["uu_id"], ENT_QUOTES) . "'><button type='submit'>delete</button></form><br>";
+          echo  "commenter: " . h($row["poster"]) . " - post: " . clean_html($row["post"]) . " | " . date("Y-m-d H:i:s", substr($row["date_string"], 0, 10)) . " | <a href='../postview/?id=" . urlencode($row["postID"]) . "'>" . h($row["postID"]) . "</a>" . " <a href='../permalink/?id=" . urlencode($row["postID"]) . "'>" .  "📌" . "</a>" . " | <form class='inlineDelete' action='../account/deletecomment/' method='post'>" . csrf_field() . "<input type='hidden' name='id' value='" . htmlspecialchars($row["uu_id"], ENT_QUOTES) . "'><button type='submit'>delete</button></form><br>";
         }
       } 
       else {

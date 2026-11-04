@@ -45,18 +45,18 @@ if (isset($_SESSION["uu_id"]))
   $stmt->execute();
 
   echo "<div id='postPost'><b>Comment was created</b>" . "<br />";
-  echo "<div id='postPost'><i><a href='./?id=" . $postID . "'>Back to post</a></i>" . "<br />";
-  // echo $_POST["fname"] . "<br />";
+  echo "<div id='postPost'><i><a href='./?id=" . urlencode($postID) . "'>Back to post</a></i>" . "<br />";
+  // echo h($_POST["fname"]) . "<br />";
   // //echo $_POST["pwd"] . "<br />";
-  echo $content . "</div>";
+  echo clean_html($content) . "</div>";
 
 }  
 else 
 {
   echo "<div id='postPost'><b>Comment was NOT created</b>" . "<br />";
-  // echo $_POST["fname"] . "<br />";
+  // echo h($_POST["fname"]) . "<br />";
   // echo $_POST["pwd"] . "<br />";
-  echo $content . "</div>";
+  echo clean_html($content) . "</div>";
 }
 
 

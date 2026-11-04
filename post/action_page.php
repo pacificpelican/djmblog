@@ -42,17 +42,17 @@ if (isset($_SESSION["uu_id"]))
   $stmt->execute();
 
   echo "<div id='postPost'><b>Post was created</b>" . "<br />";
-  // echo $_POST["fname"] . "<br />";
+  // echo h($_POST["fname"]) . "<br />";
   // //echo $_POST["pwd"] . "<br />";
-  echo $content . "</div>";
+  echo clean_html($content) . "</div>";
 
 }  
 else 
 {
   echo "<div id='postPost'><b>Post was NOT created</b>" . "<br />";
-  // echo $_POST["fname"] . "<br />";
+  // echo h($_POST["fname"]) . "<br />";
   // echo $_POST["pwd"] . "<br />";
-  echo $content . "</div>";
+  echo clean_html($content) . "</div>";
 }
 
 

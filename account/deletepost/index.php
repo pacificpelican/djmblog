@@ -16,17 +16,17 @@ if (isset($_SESSION["uu_id"]))
 
   echo "<div id='postPost'><b>Post was deleted</b>" . "<br />";
   echo "<i><a href='../../postview/?id=" . urlencode($theUUID) . "'>Back to post</a></i>" . "<br />";
-  // echo $_POST["fname"] . "<br />";
+  // echo h($_POST["fname"]) . "<br />";
   // //echo $_POST["pwd"] . "<br />";
-  echo $content . "</div>";
+  echo clean_html($content) . "</div>";
 
 }  
 else 
 {
   echo "<div id='postPost'><b>Post was  NOT deleted</b>" . "<br />";
-  // echo $_POST["fname"] . "<br />";
+  // echo h($_POST["fname"]) . "<br />";
   // echo $_POST["pwd"] . "<br />";
-  echo $content . "</div>";
+  echo clean_html($content) . "</div>";
 }
 
 

@@ -7,6 +7,9 @@ function start_session_with_fallback() {
     return true;
   }
 
+  $secure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
+  session_set_cookie_params(array('path' => '/', 'secure' => $secure, 'httponly' => true, 'samesite' => 'Lax'));
+
   $home = !empty($_SERVER['DOCUMENT_ROOT']) ? dirname($_SERVER['DOCUMENT_ROOT']) : dirname(__DIR__);
   $candidates = array(
     $home . DIRECTORY_SEPARATOR . 'tmp_sessions',     // above web root (preferred)
@@ -48,6 +51,91 @@ function csrf_token() {
 
 function csrf_field() {
   return "<input type='hidden' name='csrf_token' value='" . csrf_token() . "'>";
+}
+
+// HTML-escape for output
+function h($s) {
+  return htmlspecialchars((string)$s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
+// Allowlist HTML sanitizer for user-authored post/comment bodies
+function clean_html($html) {
+  $html = (string)$html;
+  if (!class_exists('DOMDocument')) {
+    return h($html);
+  }
+  $allowed = array(
+    'p' => array(), 'br' => array(), 'hr' => array(), 'b' => array(), 'strong' => array(),
+    'i' => array(), 'em' => array(), 'u' => array(), 's' => array(), 'del' => array(),
+    'ul' => array(), 'ol' => array(), 'li' => array(), 'blockquote' => array(),
+    'code' => array(), 'pre' => array(), 'span' => array(), 'div' => array(),
+    'h1' => array(), 'h2' => array(), 'h3' => array(), 'h4' => array(), 'h5' => array(), 'h6' => array(),
+    'a' => array('href', 'title'), 'img' => array('src', 'alt', 'title'),
+  );
+  $dropWithContent = array('script', 'style', 'iframe', 'object', 'embed', 'applet', 'noscript',
+    'template', 'form', 'textarea', 'select', 'svg', 'math', 'link', 'meta', 'base', 'frame', 'frameset');
+
+  $doc = new DOMDocument();
+  $prev = libxml_use_internal_errors(true);
+  $doc->loadHTML('<?xml encoding="utf-8" ?><div id="djm-root">' . $html . '</div>', LIBXML_NOERROR | LIBXML_NOWARNING);
+  libxml_clear_errors();
+  libxml_use_internal_errors($prev);
+  $root = $doc->getElementById('djm-root');
+  if (!$root) {
+    return h($html);
+  }
+
+  $walk = function ($node) use (&$walk, $allowed, $dropWithContent) {
+    foreach (iterator_to_array($node->childNodes) as $child) {
+      if ($child->nodeType === XML_TEXT_NODE) {
+        continue;
+      }
+      if ($child->nodeType !== XML_ELEMENT_NODE) {
+        $node->removeChild($child);
+        continue;
+      }
+      $name = strtolower($child->nodeName);
+      if (in_array($name, $dropWithContent, true)) {
+        $node->removeChild($child);
+        continue;
+      }
+      $walk($child);
+      if (!isset($allowed[$name])) {
+        // unknown tag: keep its (already cleaned) children, drop the tag itself
+        while ($child->firstChild) {
+          $node->insertBefore($child->firstChild, $child);
+        }
+        $node->removeChild($child);
+        continue;
+      }
+      foreach (iterator_to_array($child->attributes) as $attr) {
+        $an = strtolower($attr->nodeName);
+        if (!in_array($an, $allowed[$name], true)) {
+          $child->removeAttributeNode($attr);
+          continue;
+        }
+        if ($an === 'href' || $an === 'src') {
+          $url = preg_replace('/[\x00-\x20\x7f]+/', '', $attr->value);
+          $ok = ($an === 'href')
+            ? preg_match('~^(https?:|mailto:|/|\./|\.\./|#|\?)~i', $url) || !preg_match('~^[a-z][a-z0-9+.-]*:~i', $url)
+            : preg_match('~^(https?:|/|\./|\.\./)~i', $url) || !preg_match('~^[a-z][a-z0-9+.-]*:~i', $url);
+          if (!$ok) {
+            $child->removeAttributeNode($attr);
+          }
+        }
+      }
+      if ($name === 'a' && $child->hasAttribute('href')) {
+        $child->setAttribute('rel', 'nofollow noopener noreferrer');
+      }
+    }
+  };
+  $walk($root);
+
+  $out = '';
+  foreach ($root->childNodes as $child) {
+    $out .= $doc->saveHTML($child);
+  }
+  return $out;
 }
 
 // Requires a POST with a valid token; otherwise stops with 403/405

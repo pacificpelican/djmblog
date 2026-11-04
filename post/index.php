@@ -27,7 +27,7 @@ $uu_id = $_SESSION["uu_id"] ?? null;
   <form action="./action_page.php" method="post">
   <?php echo csrf_field(); ?>
   <label for="fname">Username:</label>
-  <input type="text" id="fname" name="fname" value="<?php echo $username; ?>" /> <br><br>
+  <input type="text" id="fname" name="fname" value="<?php echo h($username); ?>" /> <br><br>
 
     <textarea id="tArea" name="content" required></textarea>
     <br />

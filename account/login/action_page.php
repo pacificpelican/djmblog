@@ -34,7 +34,8 @@ if ($result->num_rows > 0) {
 
       $uu_id_result = $row["uu_id"];
 
-      $_SESSION["poster"] = $_POST["fname"];
+      session_regenerate_id(true);
+      $_SESSION["poster"] = $row["poster"];
       $_SESSION["uu_id"] = $uu_id_result;
     }
   }

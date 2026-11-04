@@ -30,7 +30,7 @@ $uu_id = $_SESSION["uu_id"] ?? null;
 
   <section id="userInfoName">
   <?php 
-    echo ($username=="") ? "<a href='./login'>login</a>" :   "<span>Username:</span>" . "<span id='uname'>" . $username . "<br /><a href='./logout'>log out</a>"; 
+    echo ($username=="") ? "<a href='./login'>login</a>" :   "<span>Username:</span>" . "<span id='uname'>" . h($username) . "<br /><a href='./logout'>log out</a>"; 
   ?>
   </section>
   <br /><br />

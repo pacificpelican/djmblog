@@ -42,9 +42,9 @@ $uu_id = guidv4();
 $stmt->execute();
 
 echo "<div id='postPost'><b>Username/Password saved</b>" . "<br />";
-echo $_POST["fname"] . "<br />";
+echo h($_POST["fname"]) . "<br />";
 
-echo $content . "</div>";
+echo clean_html($content) . "</div>";
 ?> 
 
 <style>

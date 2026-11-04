@@ -7,7 +7,7 @@ require '../post/connect.php';
 <html lang="en">
 
 <head>
-  <title>djmblog / post id <?php echo $_GET["id"]; ?></title>
+  <title>djmblog / post id <?php echo h($_GET["id"] ?? ""); ?></title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../static/post.css" />
@@ -36,7 +36,7 @@ require '../post/connect.php';
     <main id="fishcr">
 
     <?php
-      $theUUID = $_GET["id"];
+      $theUUID = isset($_GET["id"]) ? (string)$_GET["id"] : "";
       $stmt = $conn->prepare("SELECT post, poster, date_string, uu_id FROM Posts WHERE uu_id = ?");
       $stmt->bind_param("s", $theUUID);
       $stmt->execute();
@@ -50,15 +50,15 @@ require '../post/connect.php';
       if ($result->num_rows > 0) {
         // output data of each row
         while($row = $result->fetch_assoc()) {
-          $filteredContent = preg_replace('~<\s*\bscript\b[^>]*>(.*?)<\s*\/\s*script\s*>~is', '', $row["post"]);
-          echo  "poster: " . $row["poster"] . " <br /><main class='post'>" . $filteredContent . "</main><br /><span class='postInfo'> Date: " . date("Y-m-d H:i:s", substr($row["date_string"], 0, 10)) . " | Post ID: " . $row["uu_id"] . "</span><br>";
+          $filteredContent = clean_html($row["post"]);
+          echo  "poster: " . h($row["poster"]) . " <br /><main class='post'>" . $filteredContent . "</main><br /><span class='postInfo'> Date: " . date("Y-m-d H:i:s", substr($row["date_string"], 0, 10)) . " | Post ID: " . h($row["uu_id"]) . "</span><br>";
 
           if ($result_comments->num_rows > 0) {
             // output data of each row
             while($row_comments = $result_comments->fetch_assoc()) {
-              $filteredCommentContent = preg_replace('~<\s*\bscript\b[^>]*>(.*?)<\s*\/\s*script\s*>~is', '', $row_comments["post"]);
+              $filteredCommentContent = clean_html($row_comments["post"]);
               echo "<hr class='commentSpacer' /><aside class='comment'>";
-              echo  "commenter: " . $row_comments["poster"] . " <br /><main class='comment'>" . $filteredCommentContent . "</main><br /><span class='commentInfo'> Date: " . date("Y-m-d H:i:s", substr($row_comments["date_string"], 0, 10)) . " | Post ID: " . $row_comments["uu_id"] . "</span><br>";
+              echo  "commenter: " . h($row_comments["poster"]) . " <br /><main class='comment'>" . $filteredCommentContent . "</main><br /><span class='commentInfo'> Date: " . date("Y-m-d H:i:s", substr($row_comments["date_string"], 0, 10)) . " | Post ID: " . h($row_comments["uu_id"]) . "</span><br>";
               echo "</aside>";
             }
           } else {
@@ -69,7 +69,7 @@ require '../post/connect.php';
         if (isset($_SESSION["uu_id"])) {
           echo "<br /><form action='./action_page.php' method='post'>" . csrf_field();
           echo "<textarea id='tArea' name='content' required></textarea><br />";
-          echo "<input type='hidden' id='postId' name='postID' value=" . $theUUID . ">";
+          echo "<input type='hidden' id='postId' name='postID' value='" . h($theUUID) . "'>";
           echo "<input id='input' type='submit' value='Post' /></form>";
         }
       } else {

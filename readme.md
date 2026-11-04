@@ -1,3 +1,5 @@
+ <img src="./static/img/djmblog-logo.svg" alt="djmblog logo" width="120" />
+
  # djmblog
 
  ---

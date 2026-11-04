@@ -17,7 +17,8 @@ $uu_id = $_SESSION["uu_id"] ?? null;
 
   <style>
     #intro { max-width: 46rem; margin-top: 1.5rem; line-height: 1.55; font-size: 1.05rem; }
-    #intro h1 { margin: 0 0 .3em; }
+    #intro h1 { margin: 0 0 .3em; display: flex; align-items: center; gap: .4em; }
+    #intro img#brandMark { height: 1.6em; width: auto; }
     #intro .tagline { font-size: 1.25rem; margin-top: 0; }
     #intro h2 { margin-top: 1.8em; }
     #intro ol, #intro ul { padding-left: 1.4em; }
@@ -37,7 +38,7 @@ $uu_id = $_SESSION["uu_id"] ?? null;
   <h2><a href="./posts">Posts</a></h2>
 
   <section id="intro">
-    <h1>djmblog</h1>
+    <h1><img id="brandMark" src="./static/img/djmblog-logo.svg" alt="" /> djmblog</h1>
     <p class="tagline">A tiny, hand-built blog and commenting app for plain PHP and MySQL.</p>
 
     <p>djmblog lets people register, log in, write posts, and comment on each other's posts. No framework, no build step, no dependencies to install: just a handful of PHP files you upload and run. It's the lightweight kind of web app that runs happily on ordinary shared hosting.</p>

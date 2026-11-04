@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="djmblog logo: a monitor showing a speech bubble">
+  <title>djmblog</title>
+  <rect x="18" y="26" width="164" height="118" rx="12" fill="#fff" stroke="#000" stroke-width="8"/>
+  <polygon points="86,148 78,176 122,176 114,148" fill="#000"/>
+  <rect x="56" y="174" width="88" height="12" rx="6" fill="#000"/>
+  <rect x="42" y="48" width="116" height="62" rx="16" fill="#000"/>
+  <polygon points="66,108 66,130 92,108" fill="#000"/>
+  <circle cx="78" cy="79" r="8" fill="#fff"/>
+  <circle cx="100" cy="79" r="8" fill="#fff"/>
+  <circle cx="122" cy="79" r="8" fill="#fff"/>
+</svg>

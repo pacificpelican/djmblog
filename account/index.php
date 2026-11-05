@@ -17,6 +17,8 @@ $uu_id = $_SESSION["uu_id"] ?? null;
 
   <style>
     form.inlineLogout { display: inline; margin: 0; }
+    a.exportBtn { display: inline-block; padding: .3em .8em; border: 1px solid #000; color: #000; text-decoration: none; }
+    a.exportBtn:hover { background: #000; color: #fff; }
     form.inlineLogout button {
       background: none; border: 0; padding: 0; margin: 0;
       font: inherit; color: LinkText; text-decoration: underline; cursor: pointer;
@@ -42,6 +44,7 @@ $uu_id = $_SESSION["uu_id"] ?? null;
   <section id="userContent">
   <?php
   if  (isset($_SESSION["uu_id"])) {
+    echo "<p><a class='exportBtn' href='./export/' target='_blank' rel='noopener'>🖨️ export data</a></p>";
     include './userContent.php';
   }
   ?>

@@ -228,18 +228,34 @@ if (file_exists(__DIR__ . '/db.local.php')) {
   include __DIR__ . '/db.local.php';
 }
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+// Create connection. A failure (bad credentials, DB down, mysqli missing) must not
+// white-screen: pages that set DB_OPTIONAL (the front page) carry on with $db_ok = false.
+$conn = null;
+$db_ok = false;
+if (class_exists('mysqli')) {
+  try {
+    $conn = @new mysqli($servername, $username, $password, $dbname);
+    $db_ok = !$conn->connect_error;
+    if (!$db_ok) {
+      error_log('djmblog: database connection failed: ' . $conn->connect_error);
+    }
+  } catch (Throwable $e) {
+    error_log('djmblog: database connection failed: ' . $e->getMessage());
+  }
+} else {
+  error_log('djmblog: the PHP mysqli extension is not available');
+}
+if (!$db_ok) {
+  $conn = null;
+}
 
-// Check connection
-echo "<section id='dbInfo'>";
-if ($conn->connect_error) {
-  echo("Database connection failed: " . $conn->connect_error);
+if (!$db_ok && !defined('DB_OPTIONAL')) {
+  http_response_code(503);
+  echo "<section id='dbInfo'>Database connection failed. If you run this site, see <a href='https://github.com/pacificpelican/djmblog#quickstart'>the readme</a> for how to connect the database.</section>";
+  exit;
 }
-else {
-//  echo ("Database connected successfully -- 📼 " . $conn->connection_status);
-}
-echo "</section>";
+
+echo "<section id='dbInfo'></section>";
 ?> 
 
 

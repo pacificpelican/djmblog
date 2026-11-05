@@ -1,4 +1,5 @@
 <?php
+define('DB_OPTIONAL', true);
 include './post/connect.php';
 include './post/postHeader.php';
 
@@ -27,6 +28,7 @@ $uu_id = $_SESSION["uu_id"] ?? null;
     #intro .cta { display: inline-block; margin: .5em 0; padding: .5em 1em; border: 2px solid #000; color: #000; text-decoration: none; font-weight: bold; }
     #intro .cta:hover { background: #000; color: #fff; }
     #intro .credit { margin-top: 2em; color: gray; font-size: .95rem; }
+    #intro .dbnote { margin-top: 1em; font-size: .95rem; }
     aside#logo img#logo { width: calc(25vw + 10pt); border-width: 1em; }
   </style>
 </head>
@@ -63,6 +65,10 @@ $uu_id = $_SESSION["uu_id"] ?? null;
     </ol>
 
     <p class="credit">Created by <a href="https://altaredwood.work">Daniel McKeown</a></p>
+
+    <?php if (!$db_ok) { ?>
+    <p class="dbnote">The database isn't connected yet. <a href="https://github.com/pacificpelican/djmblog#quickstart">How to hook up the database</a> (see the readme).</p>
+    <?php } ?>
   </section>
 
   <aside id="logo">

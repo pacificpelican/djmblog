@@ -67,7 +67,7 @@ $uu_id = $_SESSION["uu_id"] ?? null;
     <p class="credit">Created by <a href="https://altaredwood.work">Daniel McKeown</a></p>
 
     <?php if (!$db_ok) { ?>
-    <p class="dbnote">The database isn't connected yet. <a href="https://github.com/pacificpelican/djmblog#quickstart">How to hook up the database</a> (see the readme).</p>
+    <p class="dbnote">The database isn't connected yet. <a href="https://github.com/pacificpelican/djmblog#setting-the-database-info">How to hook up the database</a> (see the readme).</p>
     <?php } ?>
   </section>
 

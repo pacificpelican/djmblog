@@ -251,7 +251,7 @@ if (!$db_ok) {
 
 if (!$db_ok && !defined('DB_OPTIONAL')) {
   http_response_code(503);
-  echo "<section id='dbInfo'>Database connection failed. If you run this site, see <a href='https://github.com/pacificpelican/djmblog#quickstart'>the readme</a> for how to connect the database.</section>";
+  echo "<section id='dbInfo'>Database connection failed. If you run this site, see <a href='https://github.com/pacificpelican/djmblog#setting-the-database-info'>the readme</a> for how to connect the database.</section>";
   exit;
 }
 

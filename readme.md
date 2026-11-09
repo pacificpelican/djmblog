@@ -84,3 +84,15 @@ Remove the line, or set it to `true`, to open registration again.
 ## requirements
 - PHP
 - mySQL
+
+## exporting your content
+
+On the account page, **PDF export** opens a printable copy of your posts and
+comments. **WP export** downloads a WordPress WXR XML file for import using
+WordPress's Tools > Import > WordPress importer. It includes your posts and
+your comments, not other users' content. Comments on posts outside your export
+are attached to labeled draft placeholder posts so they can be imported without
+including the original authors' content. Post titles are generated from their
+djmblog IDs because djmblog posts do not have titles. Exported dates are UTC.
+Images and other linked files remain referenced by URL; their files are not
+included in the export.

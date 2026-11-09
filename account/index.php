@@ -44,7 +44,7 @@ $uu_id = $_SESSION["uu_id"] ?? null;
   <section id="userContent">
   <?php
   if  (isset($_SESSION["uu_id"])) {
-    echo "<p><a class='exportBtn' href='./export/' target='_blank' rel='noopener'>🖨️ export data</a></p>";
+    echo "<p><a class='exportBtn' href='./export/' target='_blank' rel='noopener'>🖨️ PDF export</a> <a class='exportBtn' href='./wp-export/'>💬 WP export</a></p>";
     include './userContent.php';
   }
   ?>

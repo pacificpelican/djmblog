@@ -85,6 +85,15 @@ Remove the line, or set it to `true`, to open registration again.
 - PHP
 - mySQL
 
+## RSS feed
+
+The **RSS feed** button on the Posts page links to `rss/`. Subscribe to that URL
+in a feed reader for the latest 20 posts, newest first, with their full formatted
+content (using the same HTML sanitization as the site), author, UTC publication
+date, and permanent link. Comments are not included. Posts have no titles, so
+feed titles use their djmblog IDs. The Posts page also advertises the feed for
+automatic discovery. No login or additional setup is required.
+
 ## exporting your content
 
 On the account page, **PDF export** opens a printable copy of your posts and

@@ -2,6 +2,35 @@ body {
     font-family: Fira Code, Inconsolata, Hack, Anonymous Pro, monospace;
 }
 
+.rss-button {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    margin-bottom: 1.25rem;
+    padding: .4rem .8rem .4rem .4rem;
+    border: 1px solid #bca3d5;
+    border-radius: .8rem;
+    background: linear-gradient(#fff, #eee4fa);
+    box-shadow: 0 2px 4px #4c168826, inset 0 1px 0 #fff;
+    color: #4c1688;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.rss-button:hover {
+    background: linear-gradient(#faf4ff, #dec9f2);
+}
+
+.rss-button:focus-visible {
+    outline: 3px solid #6b21a8;
+    outline-offset: 3px;
+}
+
+.rss-icon {
+    flex-shrink: 0;
+    filter: drop-shadow(0 1px 1px #4c16884d);
+}
+
 textarea#tArea {
     width: calc(10pt + 85vw);
     height: calc(10pt + 55vh);
